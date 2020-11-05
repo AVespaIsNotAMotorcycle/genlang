@@ -7,5 +7,7 @@ The first step was to create a program to parse through English sentences into d
 ### TO DO:
 
 _ - Implement HashTable
+
 _ - Implement the Lexicon class, containing a HashTable of Word objects
+
 _ - Add function, called by getSentenceWordVector, which creates arrays of Word objects by searching a lexicon for each word string in a sentence. These arrays of word objects will then be used to parse the meaning of the word, rather than via the strings, since these will contain more information of what kind of information each word carries. (e.g., there may be too arrays which differ in that one contains the Word sail, labelled as a verb (i.e. "We sail away"), and one containing the Word sail, labelled as a noun (i.e. "We patched the sail").
