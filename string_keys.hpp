@@ -31,10 +31,23 @@ private:
 public:
 
     // CONSTRUCTORS
-    StringKeys();
+    StringKeys() {
+
+    }
 
     StringKeys(string n) {
         name = n;
+    }
+
+    // Modifiers
+    bool addWord(Word w) {
+        for (int i = 0; i < homophones.size(); i++) {
+            if (homophones[i] == w) {
+                return false;
+            }
+        }
+        homophones.push_back(w);
+        return true;
     }
 
     // ACCESSORS

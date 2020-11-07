@@ -1,0 +1,4 @@
+// food
+
+food {noun}{inanimate}{singular}
+foods {noun}{inanimate}{plural}       // Not sure if I should include food {plural}

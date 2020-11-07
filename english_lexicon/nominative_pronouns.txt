@@ -1,0 +1,10 @@
+// Nominative pronouns
+
+I {pronoun}{nominative}{first_person}{singular}{gender_neutral}      // I
+you {pronoun}{nominative}{second_person}{singular}{gender_neutral}   // You
+he {pronoun}{nominative}{third_person}{singular}{gender_masculine}   // He
+she {pronoun}{nominative}{third_person}{singular}{gender_feminine}   // He
+it {pronoun}{nominative}{third_person}{singular}{gender_neuter}      // He
+we {pronoun}{nominative}{second_person}{plural}{gender_neutral}      // We
+you {pronoun}{nominative}{second_person}{plural}{gender_neutral}     // You (plural)
+they {pronoun}{nominative}{third_person}{plural}{gender_neutral}     // They

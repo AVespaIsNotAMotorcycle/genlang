@@ -25,20 +25,82 @@ class Word {
 
 private:
     string name; // The written word
-    int def_code; // An id number based on the meaning of the word
+    vector<string> tags; // Information about the use of the word
+    string def_code; // An id number based on the meaning of the word
+
+    // MODIFIERS
+    bool addTag(string n_tag) {
+        for (int i = 0; i < tags.size(); i++) {
+            if (tags[i] == n_tag) {
+                return false;
+            }
+        }
+        tags.push_back(n_tag);
+        return true;
+    }
 
 public:
 
     // Constructors
-    Word();
+    Word() {
+        name = "";
+        tags;
+        def_code = "";
+    }
+
+    Word(string line) {
+        name = "";
+        string text = "";
+        for (int i = 0; i < line.length(); i++) {
+            // Set word name
+            if (line[i] == ' ') {
+                if (name == "") {
+                    name = text;
+                    text = "";
+                }
+            }
+            // Set tags
+            else if (line[i] == '}') {
+                addTag(text);
+                text = "";
+            }
+            // Break on comments
+            else if (line[i] == '/' && text == "/") {
+                break;
+            }
+            // Add characters to text
+            else if (line[i] != '{') {
+                text += line[i];
+            }
+        }
+
+        // set def code
+        string l = "";
+        l += name + ": ";
+        for (int i = 0; i < tags.size(); i++) {
+            l += "{" + tags[i] + "}";
+            if (i < tags.size() - 1) {
+                l += ", ";
+            }
+        }
+        def_code = l;
+    }
 
     // ACCESSORS
-    int getDefCode() const {
+    string getDefCode() const {
         return def_code;
     }
 
     string getName() const {
         return name;
+    }
+
+    vector<string> getTags() const {
+        return tags;
+    }
+
+    void print() {
+        cout << def_code << endl;
     }
 
     // OPERATOR OVERLOADS

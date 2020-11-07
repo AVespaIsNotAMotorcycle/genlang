@@ -58,8 +58,13 @@ class HashTableStringKeys {
   bool Insert(const StringKeys & x) {
     // Insert x as active
     size_t current_pos = FindPos(x);
-    if (IsActive(current_pos))
-      return false;
+    if (IsActive(current_pos)) {
+        if (array_[current_pos].element_.getName() == x.getName()) {
+          array_[current_pos].element_ = x;
+          return true;
+        }
+        return false;
+    }
 
     array_[current_pos].element_ = x;
     array_[current_pos].info_ = ACTIVE;
@@ -73,8 +78,13 @@ class HashTableStringKeys {
   bool Insert(StringKeys && x) {
     // Insert x as active
     size_t current_pos = FindPos(x);
-    if (IsActive(current_pos))
-      return false;
+    if (IsActive(current_pos)) {
+        if (array_[current_pos].element_.getName() == x.getName()) {
+          array_[current_pos].element_ = x;
+          return true;
+        }
+        return false;
+    }
 
     array_[current_pos] = std::move(x);
     array_[current_pos].info_ = ACTIVE;
@@ -147,7 +157,7 @@ class HashTableStringKeys {
     StringKeys element_;
     EntryType info_;
 
-    HashEntry(const StringKeys& e = StringKeys{}, EntryType i = EMPTY)
+    HashEntry(const StringKeys& e = StringKeys(), EntryType i = EMPTY)
     :element_{e}, info_{i} { }
 
     HashEntry(StringKeys && e, EntryType i = EMPTY)

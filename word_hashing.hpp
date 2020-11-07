@@ -115,6 +115,15 @@ class HashTableWord {
     return collisions_;
   }
 
+    void PrintAll() {
+        EntryType t = ACTIVE;
+        for (int i = 0; i < array_.size(); i++) {
+            if (array_[i].info_ == t) {
+                array_[i].element_.print();
+            }
+        }
+    }
+
   // returns the number of probes needed to find an entry
   // number returned is negative if not found
   Word GetEntry(const Word & x) {
@@ -147,7 +156,7 @@ class HashTableWord {
     Word element_;
     EntryType info_;
 
-    HashEntry(const Word& e = Word{}, EntryType i = EMPTY)
+    HashEntry(const Word& e = Word(), EntryType i = EMPTY)
     :element_{e}, info_{i} { }
 
     HashEntry(Word && e, EntryType i = EMPTY)
@@ -193,12 +202,12 @@ class HashTableWord {
   }
 
   size_t InternalHash(const Word & x) const {
-    static std::hash<int> hf;
+    static std::hash<string> hf;
     return hf(x.getDefCode()) % array_.size( );
   }
 
   size_t DoubleHash(const Word & x) const {
-    static std::hash<int> hf;
+    static std::hash<string> hf;
     return r_value_ - (hf(x.getDefCode()) % r_value_);
   }
 
