@@ -151,6 +151,20 @@ class HashTableWord {
     }
   }
 
+  vector<Word> GetAllWithTag(string tag) {
+    vector<Word> w_w_t;
+
+    for (int i = 0; i < array_.size(); i++) {
+      if (array_[i].info_ == ACTIVE) {
+        if (array_[i].element_.hasTag(tag)) {
+          w_w_t.push_back(array_[i].element_);
+        }
+      }
+    }
+
+    return w_w_t;
+  }
+
  private:
   struct HashEntry {
     Word element_;

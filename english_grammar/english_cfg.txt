@@ -1,0 +1,88 @@
+// variables start with $
+// terminals are word{tag1}{tag2} etc
+// empty string is E
+
+$Sentence = { // Sentence level constructions
+
+// Declarative sentences:
+
+$Subject $VerbIntransitive // subject phrase and intransitive verb phrase
+
+$Subject $VerbTransitive $Object // subject phrase, transitive verb phrase, and object phrase
+
+// Imperative sentence:
+
+$VerbIntransitive // Intransitive command
+
+$VerbTransitive $Object // Transitive command
+
+// Interrogative sentences: do later, they are complicated
+
+}
+
+$Subject = {
+
+$PreNominalMods word{noun} $PostNominalMods // the noun (head) and any modifiers that go before and after
+
+$PreNominalMods word{pronoun}{nominative} $PostNominalMods // the noun (head) and any modifiers that go before and after
+
+}
+
+$Object {
+
+$IndirectObject $DirectObject // ex "She gives him the book."
+
+$DirectObject $Preposition $IndirectObject // ex "She gives the book to him."
+
+}
+
+$IndirectObject = {
+
+$NounPhrase
+
+}
+
+$DirectObject = {
+
+$NounPhrase
+
+}
+
+
+$NounPhrase = {
+
+$PreNominalMods word{noun} $PostNominalMods // the noun (head) and any modifiers that go before and after
+
+//$PreNominalMods word{pronoun} $PostNominalMods // the noun (head) and any modifiers that go before and after
+
+}
+
+$PreNominalMods = { // have to add more later
+
+E
+
+}
+
+$PostNominalMods = { // have to add more later
+
+E
+
+}
+
+$Preposition = { // add more later
+
+E
+
+}
+
+$VerbIntransitive = {
+
+word{verb}{intransitive}
+
+}
+
+$VerbTransitive = {
+
+word{verb}{transitive}
+
+}

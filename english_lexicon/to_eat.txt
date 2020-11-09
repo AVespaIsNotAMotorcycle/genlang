@@ -9,9 +9,9 @@ eat {verb}{intransitive}{second_person}{plural}    // Y'all eat
 eat {verb}{intransitive}{third_person}{plural}     // They eat
 
 // // transitive
-eat {verb}{transitive}{first_person}{singular}   // I eat food
-eat {verb}{transitive}{second_person}{singular}  // You eat food
-eats {verb}{transitive}{third_person}{singular}  // He/she/it eats food
-eat {verb}{transitive}{second_person}{plural}    // We eat food
-eat {verb}{transitive}{second_person}{plural}    // Y'all eat food
-eat {verb}{transitive}{third_person}{plural}     // They eat food
+eat {verb}{transitive}{first_person}{singular}     // I eat food
+eat {verb}{transitive}{second_person}{singular}    // You eat food
+eats {verb}{transitive}{third_person}{singular}    // He/she/it eats food
+eat {verb}{transitive}{second_person}{plural}      // We eat food
+eat {verb}{transitive}{second_person}{plural}      // Y'all eat food
+eat {verb}{transitive}{third_person}{plural}       // They eat food

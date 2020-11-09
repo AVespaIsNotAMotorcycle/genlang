@@ -99,6 +99,15 @@ public:
         return tags;
     }
 
+    bool hasTag(string tag) const {
+        for (int i = 0; i < tags.size(); i++) {
+            if (tags[i] == tag) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void print() {
         cout << def_code << endl;
     }
