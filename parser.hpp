@@ -56,27 +56,22 @@ private:
     void parseSentenceVector(vector<string> sentence_vector, vector<Word> sentence_words, int index, Lexicon lex) {
 
         if (index == sentence_vector.size()) {
-            //cout << "-------------------------------------" << endl << endl;
-            //for (int i = 0; i < sentence_words.size(); i++) {
-            //    sentence_words[i].print();
-            //}
-            //cout << endl << "-------------------------------------" << endl << endl;
+            cout << endl << "-------------------- parseSentenceVector() --------------------" << endl << endl;
+
+            for (int i = 0; i < sentence_words.size(); i++) {
+                sentence_words[i].print();
+            }
+
             return;
         }
 
         vector<Word> possible_meanings = lex.GetWordByText(sentence_vector[index]);
 
-        //cout << sentence_vector[index] << " meanings: " << endl;
-
         for (int i = 0; i < possible_meanings.size(); i++) {
-            //cout << "\t";
-            //possible_meanings[i].print();
             vector<Word> n_s_w = sentence_words;
             n_s_w.push_back(possible_meanings[i]);
             parseSentenceVector(sentence_vector, n_s_w, index + 1, lex);
         }
-
-        //cout << endl << endl;
 
     }
 

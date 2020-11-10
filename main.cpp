@@ -21,23 +21,30 @@ int main () {
     //cout << "Printing English Lexicon:" << endl << endl;
     //english_lex.PrintWordByMeaning();
 
-    /*
-    string sentence = "I eat food.";
-    cout << endl << "------------------------------------------" << endl << endl;
-    std::cout << "Input sentence: " << sentence << std::endl;
-    cout << endl << "------------------------------------------" << endl << endl;
-
-    //Parser engparse = Parser(english_lex);
-    //cout << "------------------------------------------" << endl;
-    //engparse.parseString(sentence);
-    //cout << "------------------------------------------" << endl << endl;
-
-    */
-
     SentenceGenerator english_sentence_generator = SentenceGenerator();
     english_sentence_generator.SetLex(english_lex);
     english_sentence_generator.ConstructGrammar("./english_grammar/english_cfg.txt");
-    english_sentence_generator.BuildSentenceDriver();
+
+    string sentence = "I eat food.";
+    Parser engparse = Parser(english_lex);
+
+    string command;
+    cout << "Input command (parse, generate, lexicon, grammar): ";
+    cin >> command;
+
+    if (command == "parse") {
+        cout << "Sentence: " << sentence << endl;
+        engparse.parseString(sentence);
+    }
+    if (command == "generate") {
+        english_sentence_generator.BuildSentenceDriver();
+    }
+    if (command == "lexicon") {
+        english_lex.PrintWordByMeaning();
+    }
+    if (command == "grammar") {
+        english_sentence_generator.PrintGrammar();
+    }
 
     return 0;
 }

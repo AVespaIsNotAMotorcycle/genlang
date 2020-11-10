@@ -12,9 +12,9 @@ $Subject $VerbTransitive $Object // subject phrase, transitive verb phrase, and 
 
 // Imperative sentence:
 
-$VerbIntransitive // Intransitive command
+//$VerbIntransitive // Intransitive command
 
-$VerbTransitive $Object // Transitive command
+//$VerbTransitive $Object // Transitive command
 
 // Interrogative sentences: do later, they are complicated
 
@@ -22,17 +22,23 @@ $VerbTransitive $Object // Transitive command
 
 $Subject = {
 
-$PreNominalMods word{noun} $PostNominalMods // the noun (head) and any modifiers that go before and after
+word{noun}{FLAG_SUBJECT}
 
-$PreNominalMods word{pronoun}{nominative} $PostNominalMods // the noun (head) and any modifiers that go before and after
+word{pronoun}{nominative}{FLAG_SUBJECT}
+
+//$PreNominalMods word{noun}{FLAG_SUBJECT} $PostNominalMods // the noun (head) and any modifiers that go before and after
+
+//$PreNominalMods word{pronoun}{nominative}{FLAG_SUBJECT} $PostNominalMods // the noun (head) and any modifiers that go before and after
 
 }
 
 $Object {
 
-$IndirectObject $DirectObject // ex "She gives him the book."
+$DirectObject
 
-$DirectObject $Preposition $IndirectObject // ex "She gives the book to him."
+//$IndirectObject $DirectObject // ex "She gives him the book."
+
+//$DirectObject $Preposition $IndirectObject // ex "She gives the book to him."
 
 }
 
@@ -51,7 +57,9 @@ $NounPhrase
 
 $NounPhrase = {
 
-$PreNominalMods word{noun} $PostNominalMods // the noun (head) and any modifiers that go before and after
+word{noun}
+
+//$PreNominalMods word{noun} $PostNominalMods // the noun (head) and any modifiers that go before and after
 
 //$PreNominalMods word{pronoun} $PostNominalMods // the noun (head) and any modifiers that go before and after
 
@@ -77,12 +85,12 @@ E
 
 $VerbIntransitive = {
 
-word{verb}{intransitive}
+word{verb}{intransitive}{FLAG_VERB}
 
 }
 
 $VerbTransitive = {
 
-word{verb}{transitive}
+word{verb}{transitive}{FLAG_VERB}
 
 }

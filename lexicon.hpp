@@ -141,7 +141,14 @@ public:
 
     vector<Word> FindAllWordsWithTags (vector<string> tags) {
         vector<Word> words_with_tags = word_uses.GetAllWithTag(tags[0]);
-
+        /*
+        cout << " --------------------------------------  " << endl;
+        cout << "TAGS: ";
+        for (int i = 0; i < tags.size(); i++) {
+            cout << tags[i] << ", ";
+        }
+        cout << endl << endl;
+        */
         for (int i = 0; i < tags.size(); i++) {
             for (int j = 0; j < words_with_tags.size(); j++) {
                 if (!(words_with_tags[j].hasTag(tags[i]))) {
@@ -152,10 +159,19 @@ public:
                         }
                     }
                     words_with_tags = nv;
+                    j--;
                 }
             }
         }
-
+        /*
+        cout << "WORDS: " << endl;
+        for (int i = 0; i < words_with_tags.size(); i++) {
+            //cout << words_with_tags[i].getName() << ", ";
+            words_with_tags[i].print();
+        }
+        cout << endl << endl;
+        cout << " --------------------------------------  " << endl;
+        */
         return words_with_tags;
     } 
 

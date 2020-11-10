@@ -30,17 +30,22 @@ private:
     vector<vector<string>> grammar; // rules for constructing sentences
     Lexicon lex; // available vocabulary
 
-    void BuildSentence(vector<string> sentence) {
+    void BuildSentence(vector<string> sentence, vector<string> subject_tags, vector<string> verb_tags) {
+
+        bool complete = true;
 
         string sentence_string;
         for (int i = 0; i < sentence.size(); i++) {
             sentence_string += sentence[i] + " ";
         }
-        cout << sentence_string << endl;
+        //cout << sentence_string << endl;
 
         for (int i = 0; i < sentence.size(); i++) {
             // if sentence[i] is a variable
             if (sentence[i][0] == '$') {
+
+                complete = false;
+
                 // find the variable in grammar
                 int id = -1;
                 for (int j = 0; j < grammar.size(); j++) {
@@ -90,12 +95,7 @@ private:
                             n_s.push_back(sentence[k]);
                         }
                     }
-                    BuildSentence(n_s);
-                    /*
-                    vector<string> n_s = sentence;
-                    n_s[i] = grammar[id][j];
-                    BuildSentence(n_s);
-                    */
+                    BuildSentence(n_s, subject_tags, verb_tags);
                 }
             }
             else {  // if sentence[i] is not a variable
@@ -109,6 +109,7 @@ private:
                         if (sentence[i][j] == '}') {
                             tags.push_back(tag);
                             recording_tag = false;
+                            tag = "";
                         }
                         else {
                             tag += sentence[i][j];
@@ -123,20 +124,126 @@ private:
 
                 // if any tags are listed, find all words in the lexicon with these tags and recursively call method
                 if (tags.size() > 0) {
+
+                    complete = false;
+
+                    bool is_subject = false;
+                    bool is_verb = false;
+
+                    // If the subject or verb has already been defined, ensure the other will agree
+                    for (int j = 0; j < tags.size(); j++) {
+                        if (tags[j] == "FLAG_VERB") {
+
+                            is_verb = true;
+
+                            if (subject_tags.size() != 0) {
+                                for (int z = 0; z < subject_tags.size(); z++) {
+                                    tags.push_back(subject_tags[z]);
+                                }
+                            }
+
+                            vector<string> n_t;
+                            for (int z = 0; z < tags.size(); z++) {
+                                if (z != j) {
+                                    n_t.push_back(tags[z]);
+                                }
+                            }
+                            tags = n_t;
+                        }
+                        else if (tags[j] == "FLAG_SUBJECT") {
+
+                            is_subject = true;
+
+                            if (verb_tags.size() != 0) {
+
+                                //cout << "--------------------------" << endl << "VERB TAGS ARE: ";
+                                for (int z = 0; z < verb_tags.size(); z++) {
+                                    tags.push_back(verb_tags[z]);
+                                    //cout << verb_tags[z] << " ";
+                                }
+                                //cout << endl;
+                            }
+                            vector<string> n_t;
+                            for (int z = 0; z < tags.size(); z++) {
+                                if (z != j) {
+                                    n_t.push_back(tags[z]);
+                                }
+                            }
+                            tags = n_t;
+                            //cout << "SUBJECT TAGS ARE: ";
+                            //for (int z = 0; z < tags.size(); z++) {
+                            //    cout << tags[z] << " ";
+                            //}
+                            //cout << endl << "--------------------------" << endl;
+                        }
+                    }
+
                     vector<Word> wwt = lex.FindAllWordsWithTags(tags);
                     if (wwt.size() == 0) {
-                        vector<string> n_s = sentence;
-                        n_s[i] = "[NONE]";
-                        BuildSentence(n_s);
+                        //vector<string> n_s = sentence;
+                        return;
+                        //n_s[i] = "[NONE]";
+                        //BuildSentence(n_s, subject_tags, verb_tags);
                     }
                     for (int j = 0; j < wwt.size(); j++) {
+
+                        // if the subject is first defined
+                        if (is_subject && verb_tags.size() == 0) {
+                            vector<string> w_tags = wwt[j].getTags();
+                            for (int k = 0; k < w_tags.size(); k++) {
+                                // check for number
+                                if (w_tags[k] == "singular" || w_tags[k] == "plural") {
+                                    subject_tags.push_back(w_tags[k]);
+                                    //cout << "Added " << w_tags[k] << " to subject_tags" << endl;
+                                }
+                                // check for person
+                                if (w_tags[k] == "first_person" || w_tags[k] == "second_person" || w_tags[k] == "third_person") {
+                                    subject_tags.push_back(w_tags[k]);
+                                    //cout << "Added " << w_tags[k] << " to subject_tags" << endl;
+                                }
+                                else if (w_tags[k] == "noun") {
+                                    subject_tags.push_back("third_person");
+                                }
+                            }
+                        }
+                        // if the verb is first defined
+                        if (is_verb && subject_tags.size() == 0) {
+                            vector<string> w_tags = wwt[j].getTags();
+                            for (int k = 0; k < w_tags.size(); k++) {
+                                if (w_tags[k] == "first_person" || w_tags[k] == "second_person" || w_tags[k] == "third_person" || w_tags[k] == "singular" || w_tags[k] == "plural") {
+                                    verb_tags.push_back(w_tags[k]);
+                                    //cout << "Added " << w_tags[k] << " to verb_tags" << endl;
+                                }
+                            }
+                        }
+
                         vector<string> n_s = sentence;
+
                         n_s[i] = wwt[j].getName();
-                        BuildSentence(n_s);
+                        BuildSentence(n_s, subject_tags, verb_tags);
                     }
                 }
 
             }
+        }
+        if (complete) {
+            
+            //cout << " --------------------------------------  " << endl;
+            //cout << sentence_string << endl;
+            /*
+            cout << "SUBJECT_TAGS: ";
+            for (int i = 0; i < subject_tags.size(); i++) {
+                cout << subject_tags[i] << ", ";
+            }
+            cout << endl;
+            cout << "VERB_TAGS: ";
+            for (int i = 0; i < verb_tags.size(); i++) {
+                cout << verb_tags[i] << ", ";
+            }
+            cout << endl;
+            cout << " --------------------------------------  " << endl;
+            */
+           cout << sentence_string << endl;
         }
     }
 
@@ -225,8 +332,9 @@ public:
 
     void BuildSentenceDriver() {
         vector<string> s;
+        vector<string> t;
         s.push_back("$Sentence");
-        BuildSentence(s);
+        BuildSentence(s, t, t);
     }
 
 };
